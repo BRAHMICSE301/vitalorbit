@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f3f1e9"><meta name="description" content="VitalOrbit crew health and mission operations workspace">
+<title>VitalOrbit | Crew Operations</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="layout">
+<aside class="rail" id="rail">
+  <a class="wordmark" href="#" aria-label="VitalOrbit home"><span class="mark">V</span><span>VITALORBIT<small>CREW OPERATIONS</small></span></a>
+  <div class="rail-label">WORKSPACE</div>
+  <nav id="navigation">
+    <button class="nav-item active" data-view="overview"><span>01</span> Overview</button>
+    <button class="nav-item" data-view="crew"><span>02</span> Crew roster</button>
+    <button class="nav-item" data-view="telemetry"><span>03</span> Telemetry</button>
+    <button class="nav-item" data-view="incidents"><span>04</span> Incident log</button>
+    <button class="nav-item" data-view="messages"><span>05</span> Mission notes</button>
+  </nav>
+  <div class="rail-bottom"><div class="orbit-mark">⌁</div><p>MISSION SIMULATION<br><b>EDUCATIONAL SYSTEM</b></p><span class="rail-version">BUILD 02.0 / EARTH ORBIT</span></div>
+</aside>
+<main class="main">
+<header class="topline"><button class="menu-button" id="menuButton">☰</button><div class="breadcrumb">OPERATIONS <span>/</span> <b id="currentSection">OVERVIEW</b></div><div class="topline-right"><span class="connection-dot" id="connectionDot"></span><span id="connectionText">CONNECTING TO SERVER</span><span class="top-date" id="dateLabel"></span></div></header>
+<div class="content">
+<section class="view active" id="view-overview">
+  <div class="intro"><div><p class="kicker">MISSION 184 · LOW EARTH ORBIT</p><h1>Good morning,<br><em>Mission Control.</em></h1><p class="intro-copy">A clear view of crew wellbeing, incoming telemetry and open operational items.</p></div><div class="date-stamp"><span>FLIGHT DAY</span><b>184</b><small>ORBITAL RESEARCH</small></div></div>
+  <div class="section-line"><span>01 / CURRENT STATUS</span><span>SERVER-SAVED INFORMATION</span></div>
+  <div class="metrics">
+    <article class="metric-card"><div class="metric-top"><span>CREW ON ROSTER</span><span class="metric-symbol">↗</span></div><strong id="crewCount">—</strong><small>Registered crew profiles</small></article>
+    <article class="metric-card"><div class="metric-top"><span>ACTIVE INCIDENTS</span><span class="metric-symbol orange">!</span></div><strong id="incidentCount">—</strong><small>Items requiring attention</small></article>
+    <article class="metric-card"><div class="metric-top"><span>LATEST HEART RATE</span><span class="metric-symbol">♡</span></div><strong id="latestHr">—</strong><small id="latestHrMeta">Awaiting telemetry</small></article>
+    <article class="metric-card"><div class="metric-top"><span>LATEST OXYGEN</span><span class="metric-symbol">◌</span></div><strong id="latestO2">—</strong><small id="latestO2Meta">Awaiting telemetry</small></article>
+  </div>
+  <div class="section-line"><span>02 / RECENT ACTIVITY</span><button class="text-button" data-jump="incidents">OPEN INCIDENT REGISTER ↗</button></div>
+  <div class="overview-grid"><article class="panel"><div class="panel-heading"><div><p class="kicker">OPERATIONS REGISTER</p><h2>Latest incidents</h2></div><span class="panel-index">A—01</span></div><div id="overviewIncidents" class="list-area"><p class="empty">Loading incident register…</p></div></article>
+  <article class="panel"><div class="panel-heading"><div><p class="kicker">CREW DIRECTORY</p><h2>On this mission</h2></div><span class="panel-index">A—02</span></div><div id="overviewCrew" class="list-area"><p class="empty">Loading crew roster…</p></div></article></div>
+  <div class="notice"><span class="notice-mark">i</span><p><b>About this build.</b> VitalOrbit is a student project. Crew profiles and readings are fictional demonstration records, not medical measurements. The system is not connected to spacecraft hardware or emergency services.</p></div>
+</section>
+<section class="view" id="view-crew">
+  <div class="page-heading"><div><p class="kicker">DIRECTORY / 02</p><h1>Crew roster</h1><p>People assigned to the current mission simulation.</p></div><button class="button dark" id="showCrewForm">＋ ADD CREW MEMBER</button></div>
+  <form class="inline-form hidden" id="crewForm"><label>FULL NAME<input name="name" required maxlength="70" placeholder="Crew member name"></label><label>ROLE<input name="role" required maxlength="60" placeholder="Mission role"></label><label>CALL SIGN<input name="callSign" required maxlength="20" placeholder="ORBIT-04"></label><button class="button" type="submit">SAVE PROFILE</button></form>
+  <div class="crew-grid" id="crewGrid"><p class="empty">Loading crew roster…</p></div>
+</section>
+<section class="view" id="view-telemetry">
+  <div class="page-heading"><div><p class="kicker">MONITORING / 03</p><h1>Telemetry records</h1><p>Review and record illustrative health readings against a crew profile.</p></div><span class="data-stamp">MANUAL DEMONSTRATION INPUT</span></div>
+  <div class="panel form-panel"><div class="panel-heading"><div><p class="kicker">NEW RECORD</p><h2>Log a telemetry reading</h2></div><span class="panel-index">T—01</span></div><form id="telemetryForm" class="data-form"><label>Crew member<select name="crewId" id="telemetryCrew" required><option value="">Select crew member</option></select></label><label>Heart rate · bpm<input name="heartRate" type="number" min="30" max="220" value="72" required></label><label>Blood oxygen · %<input name="oxygen" type="number" min="50" max="100" value="98" required></label><label>Temperature · °C<input name="temperature" type="number" min="30" max="45" step=".1" value="36.8" required></label><label>Respiration · /min<input name="respiration" type="number" min="4" max="60" value="16" required></label><button class="button dark" type="submit">SAVE TELEMETRY RECORD ↗</button></form></div>
+  <div class="panel table-panel"><div class="panel-heading"><div><p class="kicker">DATABASE / LATEST 30</p><h2>Reading history</h2></div><span class="panel-index">T—02</span></div><div class="table-scroll"><table><thead><tr><th>RECORDED</th><th>CREW MEMBER</th><th>HEART RATE</th><th>OXYGEN</th><th>TEMPERATURE</th><th>RESPIRATION</th></tr></thead><tbody id="telemetryRows"><tr><td colspan="6" class="empty">Loading records…</td></tr></tbody></table></div></div>
+</section>
+<section class="view" id="view-incidents">
+  <div class="page-heading"><div><p class="kicker">SAFETY / 04</p><h1>Incident register</h1><p>Record an event, assign its severity and track its resolution.</p></div></div>
+  <div class="panel form-panel"><div class="panel-heading"><div><p class="kicker">NEW ENTRY</p><h2>Register an incident</h2></div><span class="panel-index">I—01</span></div><form id="incidentForm" class="data-form"><label>Incident title<input name="title" required maxlength="100" placeholder="Short incident title"></label><label>Category<select name="category"><option>Medical</option><option>Environmental</option><option>Operational</option></select></label><label>Severity<select name="severity"><option>Low</option><option selected>Moderate</option><option>High</option></select></label><label>Crew / reporting party<input name="crewName" maxlength="70" value="Mission Control"></label><label class="wide">Description<textarea name="description" rows="3" maxlength="700" required placeholder="Describe the event and initial response…"></textarea></label><button class="button dark" type="submit">ADD TO INCIDENT REGISTER ↗</button></form></div>
+  <div class="panel table-panel"><div class="panel-heading"><div><p class="kicker">DATABASE / TRACKING</p><h2>All recorded incidents</h2></div><span class="panel-index">I—02</span></div><div class="table-scroll"><table><thead><tr><th>DATE</th><th>INCIDENT</th><th>CATEGORY</th><th>SEVERITY</th><th>STATUS</th><th>UPDATE</th></tr></thead><tbody id="incidentRows"><tr><td colspan="6" class="empty">Loading incidents…</td></tr></tbody></table></div></div>
+</section>
+<section class="view" id="view-messages">
+  <div class="page-heading"><div><p class="kicker">FLIGHT DECK / 05</p><h1>Mission notes</h1><p>Keep a shared record of short operational updates.</p></div></div>
+  <div class="message-layout"><div class="panel form-panel"><div class="panel-heading"><div><p class="kicker">TRANSMISSION</p><h2>Compose a note</h2></div><span class="panel-index">M—01</span></div><form id="messageForm" class="data-form single"><label>Sender<input name="sender" required maxlength="70" value="Mission Control"></label><label>Priority<select name="priority"><option>Routine</option><option>Important</option><option>Urgent</option></select></label><label>Message<textarea name="body" rows="5" maxlength="700" required placeholder="Write a mission update…"></textarea></label><button class="button dark" type="submit">SAVE MISSION NOTE ↗</button></form></div><div class="panel"><div class="panel-heading"><div><p class="kicker">ARCHIVE</p><h2>Recent notes</h2></div><span class="panel-index">M—02</span></div><div id="messageList" class="list-area"><p class="empty">Loading messages…</p></div></div></div>
+</section>
+<footer>VITALORBIT <span>·</span> STUDENT ENGINEERING PROJECT <span>·</span> VERSION 02.0</footer>
+</div></main></div><div class="toast" id="toast" role="status"></div>
+<script src="/app.js" defer></script>
+</body></html>
