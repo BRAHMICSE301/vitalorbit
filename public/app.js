@@ -103,6 +103,13 @@ $("#navigation").addEventListener("click", event => {
 });
 $$("[data-jump]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.jump)));
 $("#menuButton").addEventListener("click", () => $("#rail").classList.toggle("open"));
+function updateGreeting() {
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Good morning," : hour < 17 ? "Good afternoon," : "Good evening,";
+  $("#greetingText").textContent = greeting;
+}
+updateGreeting();
+window.setInterval(updateGreeting, 60 * 1000);
 $("#dateLabel").textContent = new Date().toLocaleDateString([], { weekday: "short", day: "2-digit", month: "short" }).toUpperCase();
 $("#showCrewForm").addEventListener("click", () => $("#crewForm").classList.toggle("hidden"));
 $("#crewForm").addEventListener("submit", async event => {
