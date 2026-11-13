@@ -134,7 +134,18 @@ $("#navigation").addEventListener("click", event => {
   const button = event.target.closest("[data-view]");
   if (button) navigate(button.dataset.view);
 });
-$$("[data-jump]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.jump)));
+$("[data-jump]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.jump)));
+$("#view-overview").addEventListener("click", event => {
+  const card = event.target.closest(".metric-link[data-jump]");
+  if (card) navigate(card.dataset.jump);
+});
+$("#view-overview").addEventListener("keydown", event => {
+  const card = event.target.closest(".metric-link[data-jump]");
+  if (card && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    navigate(card.dataset.jump);
+  }
+});
 $("#menuButton").addEventListener("click", () => $("#rail").classList.toggle("open"));
 function updateGreeting() {
   const hour = new Date().getHours();
