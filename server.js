@@ -185,15 +185,34 @@ async function start() {
     console.log("Demo crew added.");
   }
 
-  // Seed sample telemetry only when no readings exist yet.
-  if (await Telemetry.countDocuments() === 0 && crew.length) {
-    await Telemetry.insertMany([
-      { crewId: crew[0]._id, heartRate: 70, oxygen: 98, temperature: 36.7, respiration: 15, source: "simulator", recordedAt: new Date(Date.now() - 42 * 60000) },
-      { crewId: crew[Math.min(1, crew.length - 1)]._id, heartRate: 74, oxygen: 99, temperature: 36.8, respiration: 16, source: "simulator", recordedAt: new Date(Date.now() - 25 * 60000) },
-      { crewId: crew[Math.min(2, crew.length - 1)]._id, heartRate: 72, oxygen: 97, temperature: 36.8, respiration: 16, source: "simulator", recordedAt: new Date(Date.now() - 8 * 60000) }
-    ]);
-    console.log("Sample demonstration telemetry added.");
+  // Ensure each crew member has a small, clearly simulated telemetry history.
+  // Existing manual readings are preserved; only missing demo entries are added.
+  for (let index = 0; index < crew.length; index++) {
+    const member = crew[index];
+    const existing = await Telemetry.find({ crewId: member._id }).sort({ recordedAt: -1 });
+    const base = existing[0] || {
+      heartRate: [70, 74, 72][index % 3],
+      oxygen: [98, 99, 97][index % 3],
+      temperature: [36.7, 36.8, 36.8][index % 3],
+      respiration: [15, 16, 16][index % 3]
+    };
+    const missing = Math.max(0, 3 - existing.length);
+    const demoReadings = [];
+    for (let sample = 0; sample < missing; sample++) {
+      const offset = sample + 1;
+      demoReadings.push({
+        crewId: member._id,
+        heartRate: Math.max(60, Math.min(100, base.heartRate + (index + sample) % 3 - 1)),
+        oxygen: Math.max(95, Math.min(100, base.oxygen - (sample % 2))),
+        temperature: Number((base.temperature + (sample % 2 ? 0.1 : 0)).toFixed(1)),
+        respiration: base.respiration,
+        source: "simulator",
+        recordedAt: new Date(Date.now() - (offset * 18 + index * 3) * 60000)
+      });
+    }
+    if (demoReadings.length) await Telemetry.insertMany(demoReadings);
   }
+  console.log("Crew telemetry demo history checked.");
 
   // Seed realistic-looking example incidents once, without replacing user data.
   if (await Incident.countDocuments() === 0) {
