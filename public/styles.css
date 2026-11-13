@@ -138,3 +138,21 @@ footer span{color:#c28d64}
 .timeline-copy>p{font-size:11px;line-height:1.55;color:#aeb7aa;margin:5px 0 0;overflow-wrap:anywhere}
 @media(max-width:1050px){.systems-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.systems-grid{grid-template-columns:1fr 1fr}.system-card{padding:13px}.system-card-head{align-items:flex-start;flex-direction:column}.mission-subhead{align-items:flex-start;gap:8px;flex-direction:column}.timeline-panel{padding:5px 14px}.timeline-meta{flex-direction:column;gap:4px}.timeline-meta time{text-align:left}}
+
+/* OVERVIEW: INDIVIDUAL CREW HEALTH READINGS */
+.crew-health-panel{margin-bottom:28px}
+.crew-health-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.crew-health-card{min-width:0;background:#1b2320;border:1px solid #3b443e;padding:16px}
+.crew-health-person{display:flex;align-items:center;gap:10px;min-width:0}
+.crew-health-person>div:nth-child(2){min-width:0;flex:1}
+.crew-health-person>div:nth-child(2)>b{display:block;color:#ecebe3;font-size:12px}
+.crew-health-person>div:nth-child(2)>small{display:block;color:#a0a99e;font-size:9px;margin-top:4px}
+.crew-health-person .status{font-size:8px;white-space:nowrap}
+.crew-vitals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:18px;padding-top:13px;border-top:1px solid #39423b}
+.crew-vitals>div{min-width:0}
+.crew-vitals small{display:block;font:8px monospace;letter-spacing:.05em;color:#929c90;white-space:nowrap}
+.crew-vitals b{display:block;margin-top:7px;color:#eeeee5;font:22px Georgia,serif;white-space:nowrap}
+.crew-vitals b i{font:9px Arial,sans-serif;color:#a7b09f;margin-left:3px;font-style:normal}
+.crew-reading-time,.crew-no-reading{margin:12px 0 0;color:#929c90;font-size:9px}
+@media(max-width:900px){.crew-health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.crew-health-grid{grid-template-columns:1fr}.crew-vitals{gap:12px}}
