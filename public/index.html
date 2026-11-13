@@ -17,6 +17,7 @@
     <button class="nav-item" data-view="telemetry"><span>03</span> Telemetry</button>
     <button class="nav-item" data-view="incidents"><span>04</span> Incident log</button>
     <button class="nav-item" data-view="messages"><span>05</span> Mission notes</button>
+    <button class="nav-item" data-view="mission"><span>06</span> Mission control</button>
   </nav>
   <div class="rail-bottom"><div class="orbit-mark">⌁</div><p>MISSION SIMULATION<br><b>EDUCATIONAL SYSTEM</b></p><span class="rail-version">BUILD 02.0 / EARTH ORBIT</span></div>
 </aside>
@@ -55,6 +56,19 @@
 <section class="view" id="view-messages">
   <div class="page-heading"><div><p class="kicker">FLIGHT DECK / 05</p><h1>Mission notes</h1><p>Keep a shared record of short operational updates.</p></div></div>
   <div class="message-layout"><div class="panel form-panel"><div class="panel-heading"><div><p class="kicker">TRANSMISSION</p><h2>Compose a note</h2></div><span class="panel-index">M—01</span></div><form id="messageForm" class="data-form single"><label>Sender<input name="sender" required maxlength="70" value="Mission Control"></label><label>Priority<select name="priority"><option>Routine</option><option>Important</option><option>Urgent</option></select></label><label>Message<textarea name="body" rows="5" maxlength="700" required placeholder="Write a mission update…"></textarea></label><button class="button dark" type="submit">SAVE MISSION NOTE ↗</button></form></div><div class="panel"><div class="panel-heading"><div><p class="kicker">ARCHIVE</p><h2>Recent notes</h2></div><span class="panel-index">M—02</span></div><div id="messageList" class="list-area"><p class="empty">Loading messages…</p></div></div></div>
+</section>
+<section class="view" id="view-mission">
+  <div class="page-heading"><div><p class="kicker">FLIGHT SYSTEMS / 06</p><h1>Mission Control</h1><p>A consolidated view of simulated spacecraft systems and recent mission activity.</p></div><span class="data-stamp">SIMULATION DATA · NOT LIVE HARDWARE</span></div>
+  <div class="mission-subhead"><div><p class="kicker">01 / SPACECRAFT SYSTEMS</p><h2>Systems status</h2></div><span class="system-updated">DEMONSTRATION READINGS</span></div>
+  <div class="systems-grid">
+    <article class="system-card"><div class="system-card-head"><span class="system-icon">PWR</span><span class="system-state stable">NOMINAL</span></div><p>Power reserves</p><strong>86<span>%</span></strong><div class="system-track"><i style="width:86%"></i></div><small>Battery capacity · simulated</small></article>
+    <article class="system-card"><div class="system-card-head"><span class="system-icon">O₂</span><span class="system-state stable">NOMINAL</span></div><p>Oxygen reserves</p><strong>92<span>%</span></strong><div class="system-track"><i style="width:92%"></i></div><small>Available reserve · simulated</small></article>
+    <article class="system-card"><div class="system-card-head"><span class="system-icon">COM</span><span class="system-state watch">MONITORING</span></div><p>Communication link</p><strong class="system-word">STABLE</strong><div class="system-track"><i style="width:74%"></i></div><small>Signal quality · simulated</small></article>
+    <article class="system-card"><div class="system-card-head"><span class="system-icon">TMP</span><span class="system-state stable">NOMINAL</span></div><p>Cabin temperature</p><strong>22.4<span>°C</span></strong><div class="system-track"><i style="width:62%"></i></div><small>Cabin environment · simulated</small></article>
+  </div>
+  <div class="notice mission-notice"><span class="notice-mark">i</span><p><b>Simulation notice.</b> These system values are illustrative demo values and do not come from real spacecraft sensors. They are displayed to demonstrate how a mission systems panel could work.</p></div>
+  <div class="mission-subhead timeline-heading"><div><p class="kicker">02 / MISSION RECORD</p><h2>Activity timeline</h2></div><span class="system-updated">LATEST 20 EVENTS</span></div>
+  <article class="panel timeline-panel"><div id="missionTimeline" class="timeline-list"><p class="empty">Loading mission activity…</p></div></article>
 </section>
 <footer>VITALORBIT <span>·</span> STUDENT ENGINEERING PROJECT <span>·</span> VERSION 02.0</footer>
 </div></main></div><div class="toast" id="toast" role="status"></div>
