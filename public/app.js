@@ -1,7 +1,7 @@
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 const state = { crew: [], incidents: [], telemetry: [], messages: [] };
-const labels = { overview: "OVERVIEW", crew: "CREW ROSTER", telemetry: "TELEMETRY", incidents: "INCIDENT REGISTER", messages: "MISSION NOTES" };
+const labels = { overview: "OVERVIEW", crew: "CREW ROSTER", telemetry: "TELEMETRY", incidents: "INCIDENT REGISTER", messages: "MISSION NOTES", mission: "MISSION CONTROL" };
 
 function toast(message) {
   const node = $("#toast");
@@ -93,8 +93,21 @@ async function loadSummary() {
     $("#latestO2").textContent = "—";
   }
 }
+function renderMissionTimeline() {
+  const events = [
+    ...state.incidents.map(item => ({ type: "INCIDENT", title: item.title, detail: item.category + " · " + item.severity + " · " + item.status, date: item.createdAt, tone: "incident" })),
+    ...state.telemetry.map(item => ({ type: "TELEMETRY", title: "Crew telemetry recorded", detail: (item.crewId?.name || "Crew member") + " · HR " + item.heartRate + " bpm · O₂ " + item.oxygen + "%", date: item.recordedAt || item.createdAt, tone: "telemetry" })),
+    ...state.messages.map(item => ({ type: "MISSION NOTE", title: item.sender, detail: item.body, date: item.createdAt, tone: "note" })),
+    ...state.crew.map(item => ({ type: "CREW", title: item.name + " joined the roster", detail: item.role + " · " + item.callSign, date: item.createdAt, tone: "crew" }))
+  ].filter(item => item.date).sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0,20);
+  const target = $("#missionTimeline");
+  if (!target) return;
+  target.innerHTML = events.length ? events.map(item => `
+    <div class="timeline-item"><span class="timeline-marker ${item.tone}"></span><div class="timeline-copy"><div class="timeline-meta"><span>${safe(item.type)}</span><time>${dateTime(item.date)}</time></div><b>${safe(item.title)}</b><p>${safe(item.detail)}</p></div></div>`).join("") : '<p class="empty">No mission activity has been recorded yet.</p>';
+}
 async function refreshAll() {
   await Promise.all([loadCrew(), loadTelemetry(), loadIncidents(), loadMessages(), loadSummary()]);
+  renderMissionTimeline();
   await checkConnection();
 }
 $("#navigation").addEventListener("click", event => {
