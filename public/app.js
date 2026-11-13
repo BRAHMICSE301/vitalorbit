@@ -59,8 +59,12 @@ function renderCrew() {
     <div class="crew-detail"><span>CALL SIGN</span><b>${safe(person.callSign)}</b></div><div class="crew-detail"><span>ASSIGNMENT STATUS</span><span class="status ${statusClass(person.status)}">${safe(person.status)}</span></div></article>`).join("") : '<p class="empty">No crew profiles have been added yet.</p>';
   const latestByCrew = new Map();
   state.telemetry.forEach(record => {
-    const crewId = record.crewId?._id || record.crewId;
-    if (crewId && !latestByCrew.has(String(crewId))) latestByCrew.set(String(crewId), record);
+    const crewId = String(record.crewId?._id || record.crewId || "");
+    if (!crewId) return;
+    const previous = latestByCrew.get(crewId);
+    if (!previous || new Date(record.recordedAt || record.createdAt) > new Date(previous.recordedAt || previous.createdAt)) {
+      latestByCrew.set(crewId, record);
+    }
   });
   $("#overviewCrew").innerHTML = state.crew.length ? state.crew.map(person => {
     const reading = latestByCrew.get(String(person._id));
@@ -76,7 +80,7 @@ function renderCrew() {
   }).join("") : '<p class="empty">No crew members found.</p>';
 }
 async function loadTelemetry() {
-  state.telemetry = await api("/telemetry?limit=30");
+  state.telemetry = await api("/telemetry?limit=100");
   $("#telemetryRows").innerHTML = state.telemetry.length ? state.telemetry.map(record => `
     <tr><td>${dateTime(record.recordedAt)}</td><td>${safe(record.crewId?.name || "Unknown")}</td><td>${record.heartRate} bpm</td><td>${record.oxygen}%</td><td>${record.temperature.toFixed(1)} °C</td><td>${record.respiration} /min</td></tr>`).join("") : '<tr><td colspan="6" class="empty">No telemetry records have been saved.</td></tr>';
 }
