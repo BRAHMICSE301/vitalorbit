@@ -33,9 +33,10 @@
     <article class="metric-card"><div class="metric-top"><span>LATEST HEART RATE</span><span class="metric-symbol">♡</span></div><strong id="latestHr">—</strong><small id="latestHrMeta">Awaiting telemetry</small></article>
     <article class="metric-card"><div class="metric-top"><span>LATEST OXYGEN</span><span class="metric-symbol">◌</span></div><strong id="latestO2">—</strong><small id="latestO2Meta">Awaiting telemetry</small></article>
   </div>
-  <div class="section-line"><span>02 / RECENT ACTIVITY</span><button class="text-button" data-jump="incidents">OPEN INCIDENT REGISTER ↗</button></div>
-  <div class="overview-grid"><article class="panel"><div class="panel-heading"><div><p class="kicker">OPERATIONS REGISTER</p><h2>Latest incidents</h2></div><span class="panel-index">A—01</span></div><div id="overviewIncidents" class="list-area"><p class="empty">Loading incident register…</p></div></article>
-  <article class="panel"><div class="panel-heading"><div><p class="kicker">CREW DIRECTORY</p><h2>On this mission</h2></div><span class="panel-index">A—02</span></div><div id="overviewCrew" class="list-area"><p class="empty">Loading crew roster…</p></div></article></div>
+  <div class="section-line"><span>02 / CREW HEALTH OVERVIEW</span><span>LATEST SAVED READING PER CREW MEMBER</span></div>
+  <article class="panel crew-health-panel"><div class="panel-heading"><div><p class="kicker">CREW MONITORING</p><h2>Individual health readings</h2></div><span class="panel-index">ALL CREW</span></div><div id="overviewCrew" class="crew-health-grid"><p class="empty">Loading crew health records…</p></div></article>
+  <div class="section-line"><span>03 / RECENT ACTIVITY</span><button class="text-button" data-jump="incidents">OPEN INCIDENT REGISTER ↗</button></div>
+  <div class="overview-grid"><article class="panel"><div class="panel-heading"><div><p class="kicker">OPERATIONS REGISTER</p><h2>Latest incidents</h2></div><span class="panel-index">A—01</span></div><div id="overviewIncidents" class="list-area"><p class="empty">Loading incident register…</p></div></article></div>
   <div class="notice"><span class="notice-mark">i</span><p><b>About this build.</b> VitalOrbit is a student project. Crew profiles and readings are fictional demonstration records, not medical measurements. The system is not connected to spacecraft hardware or emergency services.</p></div>
 </section>
 <section class="view" id="view-crew">
