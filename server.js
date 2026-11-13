@@ -175,19 +175,45 @@ async function start() {
   }
   await mongoose.connect(MONGODB_URI);
   console.log("VitalOrbit database connected.");
-  const count = await Crew.countDocuments();
-  if (count === 0) {
-    const crew = await Crew.insertMany([
+  let crew = await Crew.find().sort({ createdAt: 1 });
+  if (crew.length === 0) {
+    crew = await Crew.insertMany([
       { name: "Alex Rivera", role: "Mission Commander", callSign: "ORBIT-01" },
       { name: "Maya Kim", role: "Flight Engineer", callSign: "ORBIT-02" },
       { name: "Jordan Singh", role: "Medical Officer", callSign: "ORBIT-03", status: "Review" }
     ]);
+    console.log("Demo crew added.");
+  }
+
+  // Seed sample telemetry only when no readings exist yet.
+  if (await Telemetry.countDocuments() === 0 && crew.length) {
     await Telemetry.insertMany([
-      { crewId: crew[0]._id, heartRate: 70, oxygen: 98, temperature: 36.7, respiration: 15, source: "simulator" },
-      { crewId: crew[1]._id, heartRate: 74, oxygen: 99, temperature: 36.8, respiration: 16, source: "simulator" },
-      { crewId: crew[2]._id, heartRate: 72, oxygen: 97, temperature: 36.8, respiration: 16, source: "simulator" }
+      { crewId: crew[0]._id, heartRate: 70, oxygen: 98, temperature: 36.7, respiration: 15, source: "simulator", recordedAt: new Date(Date.now() - 42 * 60000) },
+      { crewId: crew[Math.min(1, crew.length - 1)]._id, heartRate: 74, oxygen: 99, temperature: 36.8, respiration: 16, source: "simulator", recordedAt: new Date(Date.now() - 25 * 60000) },
+      { crewId: crew[Math.min(2, crew.length - 1)]._id, heartRate: 72, oxygen: 97, temperature: 36.8, respiration: 16, source: "simulator", recordedAt: new Date(Date.now() - 8 * 60000) }
     ]);
-    console.log("Demo crew and initial telemetry added.");
+    console.log("Sample demonstration telemetry added.");
+  }
+
+  // Seed realistic-looking example incidents once, without replacing user data.
+  if (await Incident.countDocuments() === 0) {
+    await Incident.insertMany([
+      { title: "Cabin humidity above preferred range", category: "Environmental", severity: "Moderate", status: "Monitoring", crewName: "Flight Engineer", description: "A simulated cabin sensor reported a brief rise in humidity. Ventilation settings were adjusted and the reading is being monitored." },
+      { title: "Ground link response delay", category: "Operational", severity: "Low", status: "Resolved", crewName: "Mission Control", description: "A short delay appeared in the simulated ground communication link. The connection returned to normal after a routine systems check." },
+      { title: "Crew wellness follow-up requested", category: "Medical", severity: "Low", status: "Open", crewName: "Medical Officer", description: "A crew member reported mild fatigue during a routine check-in. A follow-up has been added to the next review window." }
+    ]);
+    console.log("Sample demonstration incidents added.");
+  }
+
+  // Add a few mission notes only when the notes archive is empty.
+  if (await Message.countDocuments() === 0) {
+    await Message.insertMany([
+      { sender: "Mission Control", priority: "Routine", body: "Orbit insertion completed successfully. Crew systems are stable and the next scheduled status review is in 30 minutes." },
+      { sender: "Flight Engineer", priority: "Important", body: "Cabin ventilation settings were adjusted following the humidity alert. Readings are being observed for the next monitoring cycle." },
+      { sender: "Mission Commander", priority: "Routine", body: "All crew members have checked in. Continue standard observation schedule and report any change in cabin conditions." },
+      { sender: "Ground Support", priority: "Routine", body: "Communication link test completed. Signal response is back within the expected range for this simulation." }
+    ]);
+    console.log("Sample demonstration mission notes added.");
   }
   app.listen(PORT, () => console.log("VitalOrbit running on port " + PORT));
 }
